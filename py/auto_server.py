@@ -28,8 +28,4 @@ def send_control(angle, torque):
             'torque': torque
         }, 
     skip_sid=True)
-
-
-if __name__ == "__main__":
-    init()
-
+    

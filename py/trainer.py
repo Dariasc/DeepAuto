@@ -1,39 +1,44 @@
-import auto_server
-from PIL import Image
-import cv2
-import base64
-import io
-import numpy as np
+import argparse
 import time
-import os
 
+import cv2
+import numpy as np
+
+import auto_server
+import utils
+
+parser = argparse.ArgumentParser()
+parser.add_argument('target', help='when to save the data and stop receiving', type=int)
+parser.add_argument('--training-data', help='what training data to load if need be')
+parser.add_argument('--log-interval', help='every x telemetry progress will be logged', type=int, default=500)
+parser.add_argument('--render', help='whether to render what the AI is seeing', action='store_true')
+
+args = parser.parse_args()
+
+interval = args.log-interval
 start = 0
 training_data = []
-if os.path.isfile('training_data.npy'):
-    training_data = np.load('training_data.npy').tolist()
-
-save_interval = False
-target_length = 120000
+if args.training-data is not None:
+    training_data = np.load(args.training-data).tolist()
 
 def telemetry(telemetry):
-    img = stringToImg(telemetry["image"])
+    img = utils.stringToImg(telemetry["image"])
     training_data.append([img, [telemetry['angle'], telemetry['torque']]])
 
-    #cv2.imshow('image', img)
-    #cv2.waitKey(10)
+    if args.render:
+        cv2.imshow('render', img)
+        cv2.waitKey(10)
 
-    if len(training_data) % 500 == 0:
-        if save_interval or len(training_data) == target_length:
+    if len(training_data) % interval == 0:
+        if len(training_data) == args.target:
+            print("Saving training_data...")
             np.save('training_data', training_data)
+            return
         print("[{}] Time: {}".format(len(training_data), str(time.time() - start)))
-    
+
+    # Keep the server alive   
     auto_server.send_control(0, 0)
     return
-
-def stringToImg(base64_string):
-    imgdata = base64.b64decode(str(base64_string))
-    image = Image.open(io.BytesIO(imgdata))
-    return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2GRAY)
 
 start = time.time()
 auto_server.telemetry_func = telemetry
