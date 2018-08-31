@@ -494,6 +494,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000012934762246, guid: 6577377bae7db18429e690f8f8f57881,
     type: 2}
   m_PrefabInternal: {fileID: 1823999311}
+--- !u!114 &119772927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 119772921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b2637f76fc46b9409aed0760ede9a96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 8
+  sensors:
+  - {fileID: 195457229}
+  - {fileID: 1184260303}
+  - {fileID: 1768588722}
+  sensorVector:
+  - {x: 0, y: 0, z: 1}
+  - {x: -0.5, y: 0, z: 0.5}
+  - {x: 0.5, y: 0, z: 0.5}
 --- !u!1001 &163484379
 Prefab:
   m_ObjectHideFlags: 0
@@ -649,6 +669,34 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000013157825816, guid: 7dd8b689dff4b7b40b4657a66c3bcbb1,
     type: 2}
   m_PrefabInternal: {fileID: 193768838}
+--- !u!1 &195457229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 195457230}
+  m_Layer: 0
+  m_Name: SensorFront
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &195457230
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 195457229}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.34, z: 2.145}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1075128930}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &206980445 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: f2417ac1784ced9458f56bd46ca3fb6f,
@@ -1464,7 +1512,7 @@ MonoBehaviour:
     updateCameraInUpdate: 0
     updateCameraInFixedUpdate: 1
     updateCameraInLateUpdate: 0
-    switchViewKey: 32
+    switchViewKey: 99
 --- !u!114 &482030220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2770,6 +2818,37 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1026264539}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1075128929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1075128930}
+  m_Layer: 0
+  m_Name: Sensors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1075128930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1075128929}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 195457230}
+  - {fileID: 1184260304}
+  - {fileID: 1768588723}
+  m_Father: {fileID: 119772925}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1103090674
 Prefab:
   m_ObjectHideFlags: 0
@@ -2970,6 +3049,34 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2417ac1784ced9458f56bd46ca3fb6f, type: 3}
   m_IsPrefabAsset: 0
+--- !u!1 &1184260303
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1184260304}
+  m_Layer: 0
+  m_Name: SensorLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1184260304
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1184260303}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.75, y: -0.272, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1075128930}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1276477015
 GameObject:
   m_ObjectHideFlags: 0
@@ -3587,6 +3694,34 @@ Transform:
   m_Father: {fileID: 2141477883}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1768588722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1768588723}
+  m_Layer: 0
+  m_Name: SensorRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1768588723
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1768588722}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.75, y: -0.272, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1075128930}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1823999311
 Prefab:
   m_ObjectHideFlags: 0
@@ -3689,7 +3824,7 @@ Prefab:
     - target: {fileID: 114000013910545014, guid: 6577377bae7db18429e690f8f8f57881,
         type: 2}
       propertyPath: driver
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114000013910545014, guid: 6577377bae7db18429e690f8f8f57881,
         type: 2}
