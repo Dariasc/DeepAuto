@@ -37,24 +37,9 @@ y_train = np.array([i[1] for i in training_data])
 
 def build_model():
     """
-    https://github.com/llSourcell/How_to_simulate_a_self_driving_car/blob/master/model.py#L44
-
-    NVIDIA model used
-    Image normalization to avoid saturation and make gradients work better.
-    Convolution: 5x5, filter: 24, strides: 2x2, activation: ELU
-    Convolution: 5x5, filter: 36, strides: 2x2, activation: ELU
-    Convolution: 5x5, filter: 48, strides: 2x2, activation: ELU
-    Convolution: 3x3, filter: 64, strides: 1x1, activation: ELU
-    Convolution: 3x3, filter: 64, strides: 1x1, activation: ELU
-    Drop out (0.5)
-    Fully connected: neurons: 100, activation: ELU
-    Fully connected: neurons: 50, activation: ELU
-    Fully connected: neurons: 10, activation: ELU
-    Fully connected: neurons: 1 (output)
-    # the convolution layers are meant to handle feature engineering
-    the fully connected layer for predicting the steering angle.
-    dropout avoids overfitting
-    ELU(Exponential linear unit) function takes care of the Vanishing gradient problem. 
+    Utilize Nvidia Model
+    
+    https://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf
     """
     model = Sequential()
     model.add(Lambda(lambda x: x/127.5-1.0, input_shape=INPUT_SHAPE))
