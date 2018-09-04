@@ -8,16 +8,16 @@ public class SensorManager : MonoBehaviour {
     private float distance = 5;
     [SerializeField]
     private GameObject[] sensors;
-    [SerializeField]
-    private Vector3[] sensorVector;
 
-    private float[] sensorData;
+    private float[] sensorData = new float[3];
 
 	// Update is called once per frame
 	void Update () {
 		for (var i = 0; i < sensors.Length; i++) {
+            Sensor sensor = sensors[i].GetComponent<Sensor>();
+
             Transform sensorTransform = sensors[i].transform;
-            Vector3 sensorDirection = sensorTransform.TransformDirection(sensorVector[i]);
+            Vector3 sensorDirection = sensors[i].transform.TransformDirection(sensor.direction);
 
             RaycastHit hit;
             if (Physics.Raycast(sensorTransform.position, sensorDirection, out hit, distance)) {
@@ -25,6 +25,12 @@ public class SensorManager : MonoBehaviour {
             } else {
                 Debug.DrawRay(sensorTransform.position, sensorDirection * distance, Color.blue);
             }
+            sensorData[i] = hit.distance;
         }
-	}
+    }
+
+    public float GetSensorData(int i) {
+        return sensorData[i] / distance;
+    }
+
 }

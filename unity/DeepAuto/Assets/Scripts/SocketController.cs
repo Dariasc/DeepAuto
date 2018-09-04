@@ -7,13 +7,17 @@ using System;
 
 public class SocketController : MonoBehaviour {
 
-    SocketIOComponent socket;
-    WheelDrive car;
     public Camera frontCamera;
 
-	// Use this for initialization
-	void Start () {
+    private SensorManager sensorManager;
+    private SocketIOComponent socket;
+    private WheelDrive car;
+    private Rigidbody vehicleBody;
+
+    void Start () {
         car = GetComponent<WheelDrive>();
+        sensorManager = GetComponent<SensorManager>();
+        vehicleBody = GetComponent<Rigidbody>();
 
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
         socket.On("car", OnCarRequest);
@@ -33,12 +37,20 @@ public class SocketController : MonoBehaviour {
 
     public void EmitTelemetry() {
         UnityMainThreadDispatcher.Instance().Enqueue(() => {
-            Dictionary<string, string> data = new Dictionary<string, string>();
+            Dictionary<string, JSONObject> data = new Dictionary<string, JSONObject>();
 
-            data["angle"] = car.GetInputAngle().ToString();
-            data["torque"] = car.GetInputTorque().ToString();
+            data["angle"] = JSONObject.Create(car.GetInputAngle());
+            data["torque"] = JSONObject.Create(car.GetInputAngle());
 
-            data["image"] = Convert.ToBase64String(CameraHandler.RequestFrame(frontCamera));
+            JSONObject aux = JSONObject.Create();
+            aux.AddField("sensor0", sensorManager.GetSensorData(0));
+            aux.AddField("sensor1", sensorManager.GetSensorData(1));
+            aux.AddField("sensor2", sensorManager.GetSensorData(2));
+            // Normalize speed (Will never reach this number, Usually 30-35 Max, Headroom)
+            aux.AddField("speed", vehicleBody.velocity.magnitude / 50);
+            data["aux"] = aux;
+
+            data["image"] = JSONObject.CreateStringObject(Convert.ToBase64String(CameraHandler.RequestFrame(frontCamera)));
             socket.Emit("telemetry", new JSONObject(data));
         });
     }

@@ -5,6 +5,7 @@ import utils
 import auto_server
 
 def telemetry(telemetry):
+    print(format(telemetry["aux"]["speed"], 'f'))
     img = utils.stringToImg(telemetry['image'])
     cv2.imshow('car_view', img)
     cv2.waitKey(10)
