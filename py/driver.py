@@ -18,8 +18,11 @@ def telemetry(telemetry):
     img = utils.stringToImg(telemetry['image'])
     cv2.imshow('car_view', img)
     cv2.waitKey(10)
-    
-    prediction = model.predict(img.reshape(-1, 120, 80, 1))[0]
+
+    aux = telemetry['aux']
+
+    prediction = model.predict([img.reshape(-1, 180, 120, 1),
+        [aux['sensor0'], [aux['sensor0'], [aux['sensor0'], [aux['speed']]])[0]
     auto_server.send_control(prediction[0].item(), prediction[1].item())
 
 

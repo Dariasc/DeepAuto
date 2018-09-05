@@ -2,7 +2,8 @@
 from keras.models import Sequential, load_model
 from keras.optimizers import Adam
 from keras.callbacks import TensorBoard, ModelCheckpoint
-from keras.layers import Lambda, Conv2D, MaxPooling2D, Dropout, Dense, Flatten
+from keras.layers import Lambda, Conv2D, MaxPooling2D, Dropout, Dense, Flatten, Input, concatenate
+from keras.models import Model
 
 # Set GPU VRam usage to only 30%
 import tensorflow as tf
@@ -13,7 +14,6 @@ set_session(tf.Session(config=config))
 
 import numpy as np
 import argparse
-
 
 parser = argparse.ArgumentParser()
 parser.add_argument('training-data', help='training data file to use')
@@ -28,32 +28,45 @@ training_data = np.load(args.training-data)
 TRAIN_SIZE = len(training_data) / 1000
 EPOCHS = args.epochs
 
-INPUT_SHAPE = (120, 80, 1)
-LR = 1.0e-4
-MODEL_NAME = 'model-{}k-{}e.h5'.format(str(TRAIN_SIZE), str(EPOCHS))
+INPUT_SHAPE = (180, 120, 1)
 
-x_train = np.array([i[0] for i in training_data]).reshape(-1, 120, 80, 1)
-y_train = np.array([i[1] for i in training_data])
+LR = 1.0e-4
+MODEL_NAME = 'model-v0.2-{}k-{}e.h5'.format(str(TRAIN_SIZE), str(EPOCHS))
+
+cnn_input = np.array([i[0] for i in training_data]).reshape(-1, 180, 120, 1)
+aux_input = np.array([i[2] for i in training_data])
+labels = np.array([i[1] for i in training_data])
 
 def build_model():
     """
     Utilize Nvidia Model
-    
+
     https://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf
     """
-    model = Sequential()
-    model.add(Lambda(lambda x: x/127.5-1.0, input_shape=INPUT_SHAPE))
-    model.add(Conv2D(24, 5, 5, activation='elu', subsample=(2, 2)))
-    model.add(Conv2D(36, 5, 5, activation='elu', subsample=(2, 2)))
-    model.add(Conv2D(48, 5, 5, activation='elu', subsample=(2, 2)))
-    model.add(Conv2D(64, 3, 3, activation='elu'))
-    model.add(Conv2D(64, 3, 3, activation='elu'))
-    model.add(Dropout(0.5))
-    model.add(Flatten())
-    model.add(Dense(100, activation='elu'))
-    model.add(Dense(50, activation='elu'))
-    model.add(Dense(10, activation='elu'))
-    model.add(Dense(2))
+    main_input = Input(shape=INPUT_SHAPE, name="cnn_input")
+    cnn = Lambda(lambda x: x/127.5-1.0, input_shape=INPUT_SHAPE)(main_input)
+    cnn = Conv2D(24, 5, 5, activation='elu', subsample=(2, 2))(cnn)
+    cnn = Conv2D(36, 5, 5, activation='elu', subsample=(2, 2))(cnn)
+    cnn = Conv2D(48, 5, 5, activation='elu', subsample=(2, 2))(cnn)
+    cnn = Conv2D(64, 3, 3, activation='elu')(cnn)
+    cnn = Conv2D(64, 3, 3, activation='elu')(cnn)
+    cnn = Dropout(0.5)(cnn)
+    cnn = Flatten()(cnn)
+    cnn = Dense(100, activation='elu')(cnn)
+    cnn = Dense(50, activation='elu')(cnn)
+    cnn = Dense(10, activation='elu')(cnn)
+
+    cnn_output = Dense(3, name='cnn_output')(cnn)
+
+    aux = Input(shape=(4,), name='aux_input')
+
+    merge = concatenate([cnn, aux])
+    merge = Dense(10)(merge)
+    merge = Dense(5)(merge)
+
+    output = Dense(3, name='output')(merge)
+
+    model = Model(inputs=[main_input, aux], outputs=[output, cnn_output])
     model.summary()
 
     return model
@@ -69,7 +82,7 @@ def train_model(model):
 
     model.compile(loss='mean_squared_error', optimizer=Adam(LR), metrics=['accuracy'])
 
-    model.fit(x_train, y_train, epochs=EPOCHS, validation_split=0.05, callbacks=fit_callbacks)
+    model.fit([cnn_input, aux_input], [labels, labels], epochs=EPOCHS, validation_split=0.05, callbacks=fit_callbacks)
     model.save(MODEL_NAME)
 
 train_model(build_model())

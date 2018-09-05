@@ -23,7 +23,9 @@ if args.training-data is not None:
 
 def telemetry(telemetry):
     img = utils.stringToImg(telemetry["image"])
-    training_data.append([img, [telemetry['angle'], telemetry['torque']]])
+    aux = telemetry["aux"]
+    training_data.append([img, [telemetry['angle'], telemetry['torque']],
+        [aux['sensor0'], aux['sensor1'], aux['sensor2'], aux['speed']]])
 
     if args.render:
         cv2.imshow('render', img)
@@ -36,7 +38,7 @@ def telemetry(telemetry):
             return
         print("[{}] Time: {}".format(len(training_data), str(time.time() - start)))
 
-    # Keep the server alive   
+    # Keep the server alive
     auto_server.send_control(0, 0)
     return
 
