@@ -15,16 +15,16 @@ parser.add_argument('--render', help='whether to render what the AI is seeing', 
 
 args = parser.parse_args()
 
-interval = args.log-interval
+interval = args.log_interval
 start = 0
 training_data = []
-if args.training-data is not None:
-    training_data = np.load(args.training-data).tolist()
+if args.training_data is not None:
+    training_data = np.load(args.training_data).tolist()
 
 def telemetry(telemetry):
     img = utils.stringToImg(telemetry["image"])
     aux = telemetry["aux"]
-    training_data.append([img, [telemetry['angle'], telemetry['torque']],
+    training_data.append([img, [telemetry['angle'], telemetry['torque'], telemetry['brake']],
         [aux['sensor0'], aux['sensor1'], aux['sensor2'], aux['speed']]])
 
     if args.render:
@@ -39,7 +39,7 @@ def telemetry(telemetry):
         print("[{}] Time: {}".format(len(training_data), str(time.time() - start)))
 
     # Keep the server alive
-    auto_server.send_control(0, 0)
+    auto_server.send_control(0, 0, 0)
     return
 
 start = time.time()

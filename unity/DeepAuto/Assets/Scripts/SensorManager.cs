@@ -17,7 +17,7 @@ public class SensorManager : MonoBehaviour {
             Sensor sensor = sensors[i].GetComponent<Sensor>();
 
             Transform sensorTransform = sensors[i].transform;
-            Vector3 sensorDirection = sensors[i].transform.TransformDirection(sensor.direction);
+            Vector3 sensorDirection = sensorTransform.TransformDirection(sensor.direction);
 
             RaycastHit hit;
             if (Physics.Raycast(sensorTransform.position, sensorDirection, out hit, distance)) {

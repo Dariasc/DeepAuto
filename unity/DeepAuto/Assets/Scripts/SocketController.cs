@@ -28,9 +28,12 @@ public class SocketController : MonoBehaviour {
 
         float angle = float.Parse(jsonObject.GetField("angle").ToString());
         float torque = float.Parse(jsonObject.GetField("torque").ToString());
-        
+        float brake = float.Parse(jsonObject.GetField("brake").ToString());
+
+
         car.SetInputAngle(angle);
         car.SetInputTorque(torque);
+        car.handBrake = brake > 0.5 ? car.brakeTorque : 0;
 
         EmitTelemetry();
     }
@@ -39,8 +42,9 @@ public class SocketController : MonoBehaviour {
         UnityMainThreadDispatcher.Instance().Enqueue(() => {
             Dictionary<string, JSONObject> data = new Dictionary<string, JSONObject>();
 
-            data["angle"] = JSONObject.Create(car.GetInputAngle());
-            data["torque"] = JSONObject.Create(car.GetInputAngle());
+            data["angle"] = new JSONObject(car.GetInputAngle());
+            data["torque"] = new JSONObject(car.GetInputAngle());
+            data["brake"] = new JSONObject(car.braking);
 
             JSONObject aux = JSONObject.Create();
             aux.AddField("sensor0", sensorManager.GetSensorData(0));

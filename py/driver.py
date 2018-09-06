@@ -21,9 +21,9 @@ def telemetry(telemetry):
 
     aux = telemetry['aux']
 
-    prediction = model.predict([img.reshape(-1, 180, 120, 1),
-        [aux['sensor0'], [aux['sensor0'], [aux['sensor0'], [aux['speed']]])[0]
-    auto_server.send_control(prediction[0].item(), prediction[1].item())
+    aux_input = np.array([aux['sensor0'], aux['sensor1'], aux['sensor2'], aux['speed']]).reshape(1, 4)
+    prediction = model.predict([img.reshape(-1, 180, 120, 1), aux_input])[0][0]
+    auto_server.send_control(prediction[0].item(), prediction[1].item(), prediction[2].item())
 
 
 auto_server.telemetry_func = telemetry

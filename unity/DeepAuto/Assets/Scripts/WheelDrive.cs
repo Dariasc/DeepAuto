@@ -42,8 +42,8 @@ public class WheelDrive : MonoBehaviour
 
     private WheelCollider[] m_Wheels;
 
-
-
+    public float handBrake;
+    public float braking = 0;
     private float inputTorque = 0;
     private float inputAngle = 0;
 
@@ -79,7 +79,10 @@ public class WheelDrive : MonoBehaviour
         float angle = maxAngle * inputAngle;
 		float torque = maxTorque * inputTorque;
 
-		float handBrake = Input.GetKey(KeyCode.Space) ? brakeTorque : 0;
+        if (driver == Driver.Human) {
+            handBrake = Input.GetKey(KeyCode.Space) ? brakeTorque : 0;
+            braking = handBrake == 0 ? 0 : 1;
+        }
 
 		foreach (WheelCollider wheel in m_Wheels)
 		{

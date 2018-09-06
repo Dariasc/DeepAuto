@@ -15,17 +15,17 @@ def init():
 @sio.on('connect')
 def connect(sid, environ):
     print('connect ', sid)
-    send_control(0, 0)
+    send_control(0, 0, 0)
 
 @sio.on('telemetry')
 def telemetry(sid, data):
     telemetry_func(data)
 
-def send_control(angle, torque):
-    sio.emit("car", 
+def send_control(angle, torque, brake):
+    sio.emit("car",
         data={
             'angle': angle,
-            'torque': torque
-        }, 
+            'torque': torque,
+            'brake': brake
+        },
     skip_sid=True)
-    

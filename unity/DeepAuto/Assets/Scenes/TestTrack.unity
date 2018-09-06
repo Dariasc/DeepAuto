@@ -510,10 +510,6 @@ MonoBehaviour:
   - {fileID: 195457229}
   - {fileID: 1184260303}
   - {fileID: 1768588722}
-  sensorVector:
-  - {x: 0, y: 0, z: 1}
-  - {x: -0.5, y: 0, z: 0.5}
-  - {x: 0.5, y: 0, z: 0.5}
 --- !u!1001 &163484379
 Prefab:
   m_ObjectHideFlags: 0
@@ -677,6 +673,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 195457230}
+  - component: {fileID: 195457231}
   m_Layer: 0
   m_Name: SensorFront
   m_TagString: Untagged
@@ -697,6 +694,18 @@ Transform:
   m_Father: {fileID: 1075128930}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &195457231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 195457229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d63e9e692fc53a41a43badb30ace023, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: {x: 0, y: 0, z: 1}
 --- !u!1 &206980445 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: f2417ac1784ced9458f56bd46ca3fb6f,
@@ -3057,6 +3066,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1184260304}
+  - component: {fileID: 1184260305}
   m_Layer: 0
   m_Name: SensorLeft
   m_TagString: Untagged
@@ -3077,6 +3087,18 @@ Transform:
   m_Father: {fileID: 1075128930}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1184260305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1184260303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d63e9e692fc53a41a43badb30ace023, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: {x: -1, y: 0, z: 1}
 --- !u!1 &1276477015
 GameObject:
   m_ObjectHideFlags: 0
@@ -3702,6 +3724,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1768588723}
+  - component: {fileID: 1768588724}
   m_Layer: 0
   m_Name: SensorRight
   m_TagString: Untagged
@@ -3722,6 +3745,18 @@ Transform:
   m_Father: {fileID: 1075128930}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1768588724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1768588722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d63e9e692fc53a41a43badb30ace023, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: {x: 1, y: 0, z: 1}
 --- !u!1001 &1823999311
 Prefab:
   m_ObjectHideFlags: 0
@@ -3824,7 +3859,7 @@ Prefab:
     - target: {fileID: 114000013910545014, guid: 6577377bae7db18429e690f8f8f57881,
         type: 2}
       propertyPath: driver
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114000013910545014, guid: 6577377bae7db18429e690f8f8f57881,
         type: 2}
