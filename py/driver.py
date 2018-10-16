@@ -7,7 +7,6 @@ from keras.models import load_model
 import utils
 import auto_server
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument('model', help='load the model from this directory')
 args = parser.parse_args()

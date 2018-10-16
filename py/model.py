@@ -74,7 +74,7 @@ def build_model():
 def train_model(model):
     fit_callbacks = []
     if args.tensorboard:
-        logdir = './tensorboard/autoAuto/{}k/{}-epochs'.format(str(TRAIN_SIZE), str(EPOCHS))
+        logdir = './tensorboard/DeepAuto/v0.2/{}k/{}-epochs'.format(str(TRAIN_SIZE), str(EPOCHS))
         tensorboard = TensorBoard(log_dir=logdir, histogram_freq=0,
                                 write_graph=True)
 

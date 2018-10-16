@@ -43,7 +43,7 @@ public class SocketController : MonoBehaviour {
             Dictionary<string, JSONObject> data = new Dictionary<string, JSONObject>();
 
             data["angle"] = new JSONObject(car.GetInputAngle());
-            data["torque"] = new JSONObject(car.GetInputAngle());
+            data["torque"] = new JSONObject(car.GetInputTorque());
             data["brake"] = new JSONObject(car.braking);
 
             JSONObject aux = JSONObject.Create();
